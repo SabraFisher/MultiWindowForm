@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinformTodo;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace MultiWindowForm
@@ -17,7 +18,7 @@ namespace MultiWindowForm
         private int CustomerCount;
         private bool IsEditing;
         private int CurrentSelectionId;
-
+        
         public NewCustomerForm(MainForm form)
         {
             InitializeComponent();
@@ -30,17 +31,17 @@ namespace MultiWindowForm
         public void ToggleEdit(bool newState)
         {
             IsEditing = newState;
-
-            //tell the main form what our customer looks like
             _mainForm.EditCustomer(0, new Customer());
-
         }
 
         private void CreateCustomer()
         {
-            //validators here, exit early if invalid
+            if (!EntryIsValid())
+            {
+                MessageBox.Show("Invalid entry, please try again.");
+                return;
+            }
 
-            //create a customer and load it with the data from the form
             Customer customer = new Customer
             {
                 CustomerId = CustomerCount,
@@ -49,25 +50,19 @@ namespace MultiWindowForm
                 Email = txtEmail.Text,
             };
 
-            //send the data to the AddCustomer function on the parent form
             _mainForm.AddCustomer(customer);
 
-            // increase ID number
             CustomerCount++;
         }
 
-        private bool CheckValidity()
-        {
-            //some logic to validate the various inputs
-
-            bool somevalue = true; //set this to the validity of the form
-            return somevalue;
-        }
         private void EditCustomer()
-        {   
-            //validators here, exit early if invalid
+        {
+            if (!EntryIsValid())
+            {
+                MessageBox.Show("Invalid entry, please try again.");
+                return;
+            }
 
-            MessageBox.Show("Form is being edited.");
             _mainForm.EditCustomer(CurrentSelectionId, new Customer
             {
                 CustomerId = CurrentSelectionId,
@@ -84,17 +79,15 @@ namespace MultiWindowForm
         {
             if (IsEditing)
             {
-                // edit the item in place
                 EditCustomer();
             }
             else 
             {
                 CreateCustomer();
             }
-            // clear the new customer form
             ClearForm();
-            // close the form if we want to
             Hide();
+            
         }
 
         private void ClearForm()
@@ -116,6 +109,37 @@ namespace MultiWindowForm
         private void btnClear_Click(object sender, EventArgs e)
         {
             ClearForm();
+        }
+
+        private bool EntryIsValid()
+        {
+            bool validEntry = true;
+
+            if (Validators.IsEmptyText(txtName) || Validators.IsTextNull(txtName))
+            {
+                MessageBox.Show("Name required. Please try again.");
+                return !validEntry;
+            }
+
+            if (Validators.IsEmptyText(txtEmail) || Validators.IsTextNull(txtEmail))
+            {
+                MessageBox.Show("Email required. Please try again.");
+                return !validEntry;
+            }
+
+            if (Validators.IsEmptyText(txtPhoneNumber))
+            {
+                MessageBox.Show("Phone number required. Please try again.");
+                return !validEntry;
+            }
+
+            if (!Validators.IsCorrectLength(txtPhoneNumber, 10))
+            {
+                MessageBox.Show("Phone number must be 10 digits.");
+                return !validEntry;
+            }
+
+            return validEntry;
         }
     }
 }

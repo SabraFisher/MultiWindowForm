@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             gbCustomer = new GroupBox();
+            btnClear = new Button();
             btnSave = new Button();
             txtPhoneNumber = new TextBox();
             lblPhoneHeading = new Label();
@@ -36,7 +37,6 @@
             lblEmailHeading = new Label();
             txtName = new TextBox();
             lblNameHeading = new Label();
-            btnClear = new Button();
             gbCustomer.SuspendLayout();
             SuspendLayout();
             // 
@@ -59,9 +59,19 @@
             gbCustomer.TabStop = false;
             gbCustomer.Text = "New Customer";
             // 
+            // btnClear
+            // 
+            btnClear.Location = new Point(293, 108);
+            btnClear.Name = "btnClear";
+            btnClear.Size = new Size(75, 23);
+            btnClear.TabIndex = 7;
+            btnClear.Text = "Clear";
+            btnClear.UseVisualStyleBackColor = true;
+            btnClear.Click += btnClear_Click;
+            // 
             // btnSave
             // 
-            btnSave.Location = new Point(0, 113);
+            btnSave.Location = new Point(0, 108);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(75, 23);
             btnSave.TabIndex = 6;
@@ -119,16 +129,6 @@
             lblNameHeading.Size = new Size(42, 15);
             lblNameHeading.TabIndex = 0;
             lblNameHeading.Text = "Name:";
-            // 
-            // btnClear
-            // 
-            btnClear.Location = new Point(293, 108);
-            btnClear.Name = "btnClear";
-            btnClear.Size = new Size(75, 23);
-            btnClear.TabIndex = 7;
-            btnClear.Text = "Clear";
-            btnClear.UseVisualStyleBackColor = true;
-            btnClear.Click += btnClear_Click;
             // 
             // NewCustomerForm
             // 
